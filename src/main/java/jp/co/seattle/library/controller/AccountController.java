@@ -59,19 +59,13 @@ public class AccountController {
         userInfo.setEmail(email);
 
         // TODO バリデーションチェック、パスワード一致チェック実装
-       //パスワードの入力した値を取得
-       //パスワード確認の入力した値を取得
-       //↑をif文で比較 if（！入力した値password＝＝確認用の値passwordForCheck）{
-    	 //  system.out.println("パスワードが一致しません");
-      // }
-      // パスワードの数字指定
+       
         if (password.length() >= 8 && password.matches("^[0-9a-zA-Z]+$")) {
         	
             if (password.equals(passwordForCheck)) {
             	userInfo.setPassword(password);
             	usersService.registUser(userInfo);
         	   
-            	model.addAttribute("bookList", booksService.getBookList());
             	return "login";
         
             } else {
