@@ -76,7 +76,7 @@ public class BooksService {
    
 
 	public void deleteBook(Integer bookId) {
-		// TODO 自動生成されたメソッド・スタブ
+		
 		String sql = "delete from books where id=" +bookId+";";
     	jdbcTemplate.update(sql);
 	}
