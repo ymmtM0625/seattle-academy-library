@@ -101,7 +101,7 @@ public class AddBooksController {
         if(!(bookInfo.getPublishDate().length() == 8 && bookInfo.getPublishDate().matches("^[0-9]+$"))) {
         	list.add("出版日は半角数字のYYYYMMDDの形式で入力してください");
         }
-        if(!(bookInfo.getIsbn().length() == 10 || bookInfo.getIsbn().length() == 13)) {
+        if(!(bookInfo.getIsbn().length() == 10 || bookInfo.getIsbn().length() == 13 || bookInfo.getIsbn().length() == 0)) {
         	list.add("ISBNの桁数または半角数字が正しくありません");
         }
         
