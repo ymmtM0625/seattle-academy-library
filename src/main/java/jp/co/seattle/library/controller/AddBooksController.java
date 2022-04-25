@@ -1,5 +1,7 @@
 package jp.co.seattle.library.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -53,6 +55,10 @@ public class AddBooksController {
             @RequestParam("author") String author,
             @RequestParam("publisher") String publisher,
             @RequestParam("thumbnail") MultipartFile file,
+            @RequestParam("publish_date") String publish_date,
+            @RequestParam("explation") String explation,
+            @RequestParam("isbn") String isbn,
+            
             Model model) {
         logger.info("Welcome insertBooks.java! The client locale is {}.", locale);
 
@@ -61,6 +67,9 @@ public class AddBooksController {
         bookInfo.setTitle(title);
         bookInfo.setAuthor(author);
         bookInfo.setPublisher(publisher);
+        bookInfo.setPublishDate(publish_date);
+        bookInfo.setExplation(explation);
+        bookInfo.setIsbn(isbn);
 
         // クライアントのファイルシステムにある元のファイル名を設定する
         String thumbnail = file.getOriginalFilename();
@@ -83,15 +92,34 @@ public class AddBooksController {
                 return "addBook";
             }
         }
+       List<String> list = new ArrayList<String>();
+        
+        if(bookInfo.getTitle().isEmpty() || bookInfo.getAuthor().isEmpty() || bookInfo.getPublisher().isEmpty() || bookInfo.getPublishDate().isEmpty()) {
+        	list.add("必須項目を入力してください");
+        }
+        
+        if(!(bookInfo.getPublishDate().length() == 8 && bookInfo.getPublishDate().matches("^[0-9]+$"))) {
+        	list.add("出版日は半角数字のYYYYMMDDの形式で入力してください");
+        }
+        if(!(bookInfo.getIsbn().length() == 10 || bookInfo.getIsbn().length() == 13)) {
+        	list.add("ISBNの桁数または半角数字が正しくありません");
+        }
+        
+        //リストに入ってたらエラー文
+        //リストに入ってなかったらOK
+        if(list.size() == 0) {
+        	booksService.registBook(bookInfo);
 
-        // 書籍情報を新規登録する
-        booksService.registBook(bookInfo);
+            model.addAttribute("resultMessage", "登録完了");
+            
+        	model.addAttribute("bookDetailsInfo", booksService.newbookInfo());
+        	return "details";
+        	
+        }else {
+        	model.addAttribute("errorlists",list);
+        	return "addBook";
+        }
 
-        model.addAttribute("resultMessage", "登録完了");
-
-        // TODO 登録した書籍の詳細情報を表示するように実装
-        //  詳細画面に遷移する
-        return "details";
     }
-
+    
 }
