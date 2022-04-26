@@ -26,7 +26,6 @@ public class BooksService {
 
     /**
      * 書籍リストを取得する
-     *
      * @return 書籍リスト
      */
     public List<BookInfo> getBookList() {
@@ -56,7 +55,13 @@ public class BooksService {
 
         return bookDetailsInfo;
     }
-
+    
+    
+    /**
+     * 最新の書籍情報を取得する
+     * 
+     * @return 書籍情報
+     */
     public BookDetailsInfo newbookInfo() {
 
         // JSPに渡すデータを設定する
@@ -89,7 +94,11 @@ public class BooksService {
     }
    
     
-   
+    /**
+     * 書籍IDに紐づく書籍詳細情報を取得する
+     *
+     * @param bookId 書籍ID
+     */
 
 	public void deleteBook(Integer bookId) {
 		
