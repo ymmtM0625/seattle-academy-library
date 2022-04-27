@@ -23,19 +23,30 @@ public class BookDetailsInfo {
     private String thumbnailUrl;
 
     private String thumbnailName;
+    
+    private String publishDate;
+    
+    private String explation;
+    
+    private String isbn;
 
     public BookDetailsInfo() {
 
     }
 
     public BookDetailsInfo(int bookId, String title, String author, String publisher,
-            String thumbnailUrl, String thumbnailName) {
+            String thumbnailUrl, String thumbnailName, String publishDate, String explation, String isbn) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.thumbnailUrl = thumbnailUrl;
         this.thumbnailName = thumbnailName;
+        this.publishDate = publishDate;
+        this.explation = explation;
+        this.isbn = isbn;
+        
     }
 
+	
 }

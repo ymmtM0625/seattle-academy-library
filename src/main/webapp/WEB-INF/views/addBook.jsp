@@ -39,8 +39,20 @@
                     </div>
                     <input type="file" accept="image/*" name="thumbnail" id="thumbnail">
                 </div>
+                
                 <div class="content_right">
+           
+                   <c:if test="${!empty errorlists}">
+                      <div class="error">
+             
+                      <c:forEach var="list" items="${errorlists}">       
+                          <p>${list}</p>
+                        </c:forEach>
+                          </div>
+                      </c:if>
+                
                     <div>
+                
                         <span>書籍名</span><span class="care care2">必須</span>
                         <c:if test="${!empty bookInfo}">
                             <input type="text" name="title" value="${bookInfo.title}">
@@ -64,9 +76,40 @@
                             <input type="text" name="publisher" value="${bookInfo.publisher}">
                         </c:if>
                         <c:if test="${empty bookInfo}">
-                            <input type="text" name="publisher">
+                            <input type="text" name="publisher" autocomplete="off">
                         </c:if>
                     </div>
+                    
+                    <div>
+                        <span>出版日</span><span class="care care2">必須</span>
+                        <c:if test="${!empty bookInfo}">
+                            <input type="text" name="publish_date" value="${bookInfo.publishDate}">
+                        </c:if>
+                        <c:if test="${empty bookInfo}">
+                            <input type="text" name="publish_date" autocomplete="off">
+                        </c:if>
+                    </div>
+                    
+                   <div>
+                   <span>ISBN</span><span class="care care1">任意</span>
+                        <c:if test="${!empty bookInfo}">
+                            <input type="text" name="isbn" value="${bookInfo.isbn}">
+                        </c:if>
+                        <c:if test="${empty bookInfo}">
+                            <input type="text" name="isbn" autocomplete="off">
+                        </c:if>
+                   </div>
+                   
+                   <div>
+                   <span>説明文</span><span class="care care1">任意</span>
+                        <c:if test="${!empty bookInfo}">
+                            <input type="text" name="explation" value="${bookInfo.explation}">
+                        </c:if>
+                        <c:if test="${empty bookInfo}">
+                            <input type="text" name="explation" autocomplete="off">
+                        </c:if>
+                   </div>
+                    
                     <input type="hidden" id="bookId" name="bookId" value="${bookInfo.bookId}">
                 </div>
             </div>

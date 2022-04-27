@@ -1,3 +1,4 @@
+
 package jp.co.seattle.library.dto;
 
 import org.springframework.context.annotation.Configuration;
