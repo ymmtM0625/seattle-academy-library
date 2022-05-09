@@ -42,6 +42,14 @@
                         </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
                     </a>
                 </div>
+                <c:if test="${!empty errorlists}">
+                      <div class="error">
+             
+                      <c:forEach var="list" items="${errorlists}">       
+                          <p>${list}</p>
+                        </c:forEach>
+                          </div>
+                      </c:if>
             </div>
             
            
@@ -76,8 +84,12 @@
                 
             </div>
         </div>
+         
+                    
+                
+                    
         <div class="edtDelBookBtn_box">
-            <form method="post" action="">
+            <form method="post" action="rentBook">
                 <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_rentBook">借りる</button>
             </form>
             <form method="post" action="">
