@@ -25,7 +25,6 @@ public class RentBooksService {
 	
 	/**
      * 書籍IDに紐づく書籍詳細情報を取得する
-     *
      * @param bookId 書籍ID
      * @return 書籍情報
      */
@@ -36,5 +35,14 @@ public class RentBooksService {
 		return jdbcTemplate.queryForObject(sql,Integer.class);
 
     }
+	/**
+     * 返却する書籍を削除する
+     * @param bookId 書籍ID
+     */
+	public void returnBook(Integer bookId) {
+		
+		String sql = "delete from rentbooks where book_id=" +bookId+";";
+    	jdbcTemplate.update(sql);
+	}
 
 }
