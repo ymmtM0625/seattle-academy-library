@@ -19,44 +19,39 @@ import jp.co.seattle.library.service.RentBooksService;
 public class RentController {
 	final static Logger logger = LoggerFactory.getLogger(BooksService.class);
 
-    @Autowired
-    private BooksService booksService;
-    @Autowired
-    private RentBooksService rentBookService;
+	@Autowired
+	private BooksService booksService;
+	@Autowired
+	private RentBooksService rentBookService;
 
-    /**
-     * 詳細画面に遷移する
-     * @param locale
-     * @param bookId
-     * @param model
-     * @return 遷移先画面
-     */
-    @Transactional
-    @RequestMapping(value = "/rentBook", method = RequestMethod.POST)
-    public String rentBook(Locale locale,
-            @RequestParam("bookId") Integer bookId,
-            Model model) {
-        // デバッグ用ログ
-    	
-        logger.info("Welcome rentBook.java! The client locale is {}.", locale);
-        
-        Integer count = rentBookService.countRentBook(bookId);
-        rentBookService.rentBook(bookId);
-        Integer count2 =rentBookService.countRentBook(bookId);
-        
-       
-        
-        		if(count < count2){
-        			
-        			
-        		}else {
-        	    	model.addAttribute("errorlists","貸出済みです。");
-        	    	
-        	    }
-        		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-        	    return "details";
-    }
+	/**
+	 * 詳細画面に遷移する
+	 * 
+	 * @param locale
+	 * @param bookId
+	 * @param model
+	 * @return 遷移先画面
+	 */
+	@Transactional
+	@RequestMapping(value = "/rentBook", method = RequestMethod.POST)
+	public String rentBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
+		// デバッグ用ログ
+
+		logger.info("Welcome rentBook.java! The client locale is {}.", locale);
+
+		Integer rentcountbefore = rentBookService.countRentBook(bookId);
+		rentBookService.rentBook(bookId);
+		Integer rentcountafter = rentBookService.countRentBook(bookId);
+
+		if (rentcountbefore < rentcountafter) {
+			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+			return "details";
+
+		} else {
+			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+			model.addAttribute("errorlists", "貸出済みです。");
+			return "details";
+
+		}
+	}
 }
-
-
-
