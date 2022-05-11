@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.seattle.library.dto.BookDetailsInfo;
 import jp.co.seattle.library.service.BooksService;
-import jp.co.seattle.library.service.ThumbnailService;
 
 @Controller //APIの入り口
 public class BulkController {
@@ -31,11 +30,12 @@ public class BulkController {
 	@Autowired
 	private BooksService booksService;
 
-	@Autowired
-	private ThumbnailService thumbnailService;
 	
-	
-	
+	/**
+	 * 書籍を一括登録する
+	 * @param model
+	 * @return 遷移先画面
+	 */
 	@Transactional
 	@RequestMapping(value = "/bulk", method = RequestMethod.GET) //value＝actionで指定したパラメータ
     //RequestParamでname属性を取得
@@ -43,6 +43,13 @@ public class BulkController {
         return "bulk";
     }
 	
+	/**
+	 * 書籍を一括登録する
+	 * @param locale
+	 * @param uploadFile
+	 * @param model
+	 * @return　遷移先画面
+	 */
 	@Transactional
     @RequestMapping(value = "/bulkupload", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
     public String bulkupload(Locale locale,
@@ -63,19 +70,11 @@ public class BulkController {
     	
     	int count = 1;
     	
-    	
-        
         //csvファイルを一行ずつ読み込むを行う
         while ((line = br.readLine()) != null) {
-          final String[] split = line.split(",",-1);
+          String[] split = line.split(",",-1);
           
           BookDetailsInfo bookInfo = new BookDetailsInfo();
-	  		bookInfo.setTitle(split[0]);
-	  		bookInfo.setAuthor(split[1]);
-	  		bookInfo.setPublisher(split[2]);
-	  		bookInfo.setPublishDate(split[3]);
-	  		bookInfo.setIsbn(split[4]);
-	  		bookInfo.setExplation(split[5]);
 	  		
 	  		boolean requiredCheck = split[0].isEmpty() || split[1].isEmpty() || split[2].isEmpty() || split[3].isEmpty();
 	        boolean publishDateCheck = !(split[3].length() == 8 && split[3].matches("^[0-9]+$"));
@@ -85,6 +84,13 @@ public class BulkController {
 			if(requiredCheck || publishDateCheck || isbnCheck) {
 				errorLists.add(count+"行目でエラーが発生しました。");
 			}else {
+				bookInfo.setTitle(split[0]);
+		  		bookInfo.setAuthor(split[1]);
+		  		bookInfo.setPublisher(split[2]);
+		  		bookInfo.setPublishDate(split[3]);
+		  		bookInfo.setIsbn(split[4]);
+		  		bookInfo.setExplation(split[5]);
+				
 				bookLists.add(bookInfo);
 			}
 	        
@@ -92,7 +98,7 @@ public class BulkController {
 	  	
         }
        
-        if(bookLists.isEmpty()) {
+        if(bookLists.size()==0) {
         	model.addAttribute("errorMessage", "CSVに書籍情報がありません。");
         	return "bulk";
         }
