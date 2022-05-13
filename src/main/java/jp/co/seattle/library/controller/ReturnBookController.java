@@ -41,11 +41,11 @@ public class ReturnBookController {
     	
     	logger.info("Welcome returnBook.java! The client locale is {}.", locale);
     	
-    	Integer count1 = rentBookService.countRentBook(bookId);
+    	Integer rentBook = rentBookService.countRentBook(bookId);
         
     	
         //countの中が０(データがなかったら)エラー文⇦貸出されていない
-        if(count1==0) {
+        if(rentBook==0) {
         	model.addAttribute("errorlists","貸出されていません。");
         }else {
         	rentBookService.returnBook(bookId);
