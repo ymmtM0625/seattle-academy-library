@@ -48,7 +48,7 @@ public class BooksService {
     public BookDetailsInfo getBookInfo(int bookId) {
 
         // JSPに渡すデータを設定する
-        String sql = "select * from books left outer join rentbooks on books.id = rentbooks.book_id where books.id = "
+        String sql = "select * ,case when book_id > 0 then '貸し出し中' else '貸し出し可' end from books left outer join rentbooks on books.id = rentbooks.book_id where books.id = "
         		+bookId;
 
         BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
@@ -65,7 +65,7 @@ public class BooksService {
     public BookDetailsInfo newbookInfo() {
 
         // JSPに渡すデータを設定する
-        String sql = "select * from books left outer join rentbooks on books.id = rentbooks.book_id "
+        String sql = "select * ,case when book_id > 0 then '貸し出し中' else '貸し出し可' end from books left outer join rentbooks on books.id = rentbooks.book_id "
         		+"where books.id = (select max(id)from books)";
         		
                 
