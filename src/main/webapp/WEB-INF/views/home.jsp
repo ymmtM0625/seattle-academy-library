@@ -29,7 +29,7 @@
             <h1>Home</h1>
             <form method="post" action="searchBook">
                 <input class="search1" type="search" name="search" placeholder="書籍を入力"> 
-                <input class="search_box1" type="submit" name="submit" value="検索">
+                <input class="search_box" type="submit" name="submit" value="検索">
             </form>
         </div>
         <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a> 
