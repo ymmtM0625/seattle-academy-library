@@ -123,7 +123,7 @@ public class BooksService {
     }
 	
 	/**
-	 * 書籍を検索する
+	 * 部分一致で書籍を検索する
 	 * @param title
 	 */
 	 public List<BookInfo> searchBookList(String search) {
@@ -134,6 +134,20 @@ public class BooksService {
 	                new BookInfoRowMapper());
 
 	        return searchedBookList;
+	    }
+	 /**
+	  * 完全一致で書籍を検索する
+	  * @param search
+	  * @return
+	  */
+	 public List<BookInfo> perfectMatchBookList(String search) {
+
+	        // TODO 取得したい情報を取得するようにSQLを修正
+	        List<BookInfo> perfectSearchedBookList = jdbcTemplate.query(
+	        		"SELECT * FROM books WHERE title = '"+search+"'",
+	                new BookInfoRowMapper());
+
+	        return perfectSearchedBookList;
 	    }
 	
    
