@@ -25,11 +25,17 @@ public class SearchBookController {
 	@RequestMapping(value = "/searchBook", method = RequestMethod.POST)
 	public String searchBook(Locale locale, 
 			@RequestParam("search")String search,
+			@RequestParam("radio")String radio,
 			Model model) {
 		// デバッグ用ログ
 		logger.info("Welcome searchBookControler.java! The client locale is {}.", locale);
 		
-		model.addAttribute("bookList", booksService.searchBookList(search));
+	
+		if(radio.equals("部分一致")) {
+			model.addAttribute("bookList", booksService.searchBookList(search));
+		}else {
+			model.addAttribute("bookList", booksService.perfectMatchBookList(search));
+		}
 		
 		return "home";
 
