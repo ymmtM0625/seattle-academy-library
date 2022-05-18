@@ -29,9 +29,11 @@
             <h1>Home</h1>
             <form method="post" action="searchBook">
                 <input class="search1" type="search" name="search" placeholder="書籍を入力"> 
+
                 <input class="search_box1" type="submit" name="submit" value="検索">
                  <input type="radio" name="radio" value="部分一致">部分一致
             <input type="radio" name="radio" value="完全一致">完全一致
+
             </form>
         </div>
         <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a> 
@@ -46,7 +48,7 @@
                 <div class="booklist">
                     <c:forEach var="bookInfo" items="${bookList}">
                         <div class="books">
-                            <form method="get" class="book_thumnail" action="<%=request.getContextPath()%>/details">
+                            <form method="post" class="book_thumnail" action="<%=request.getContextPath()%>/details">
                                 <a href="javascript:void(0)" onclick="this.parentNode.submit();"> <c:if test="${bookInfo.thumbnail == 'null'}">
                                         <img class="book_noimg" src="resources/img/noImg.png">
                                     </c:if> <c:if test="${bookInfo.thumbnail != 'null'}">
