@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jp.co.seattle.library.dto.HistoryDetailsInfo;
 import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.RentBooksService;
 
@@ -34,21 +35,38 @@ public class RentController {
 	 */
 	@Transactional
 	@RequestMapping(value = "/rentBook", method = RequestMethod.POST)
-	public String rentBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
+	public String rentBook(Locale locale, 
+			@RequestParam("bookId") Integer bookId,
+			Model model) {
 		// デバッグ用ログ
 
 		logger.info("Welcome rentBook.java! The client locale is {}.", locale);
 
-		Integer rentcountbefore = rentBookService.countRentBook(bookId);
-		rentBookService.rentBook(bookId);
-		Integer rentcountafter = rentBookService.countRentBook(bookId);
-
-		if (rentcountbefore == rentcountafter) {
+		
+		Integer rentcount = rentBookService.countRentBook(bookId);
+		
+		HistoryDetailsInfo rentDayInfo = rentBookService.selectRentDay(bookId);
+		
+		//書き直し
+		//bookIdのデータをカウントして同じデータがなければ借りる登録
+		if(rentcount == 0) {
+			rentBookService.rentBook(bookId);
+			
+			
+		}else {
+			//2回目rentdayがnullだったら借りる登録
+			if(rentDayInfo.getRentDay() == null) {
+				rentBookService.secondrentBook(bookId);
+				model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+				return "details";
+			}else {
+				model.addAttribute("errorlists", "貸出済みです。");
+				
+			}
 			model.addAttribute("errorlists", "貸出済みです。");
 		}
+		
 		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-
 		return "details";
-
 	}
 }
