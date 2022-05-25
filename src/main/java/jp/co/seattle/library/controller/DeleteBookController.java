@@ -48,6 +48,7 @@ public class DeleteBookController {
         
         	if(rentDayInfo == null) {
         		booksService.deleteBook(bookId);
+        		booksService.deleteRentBooks(bookId);
         		model.addAttribute("bookList", booksService.getBookList());
     			return "home";
         		
@@ -55,6 +56,7 @@ public class DeleteBookController {
         		//rent_dayはnullだったら削除
         		if(rentDayInfo.getRentDay() == null){
         			booksService.deleteBook(bookId);
+        			booksService.deleteRentBooks(bookId);
         			model.addAttribute("bookList", booksService.getBookList());
         			return "home";
         			
