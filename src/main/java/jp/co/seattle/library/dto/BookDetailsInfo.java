@@ -31,7 +31,8 @@ public class BookDetailsInfo {
     private String isbn;
     
     private String status;
-
+    
+    
     public BookDetailsInfo() {
 
     }
@@ -48,6 +49,7 @@ public class BookDetailsInfo {
         this.explation = explation;
         this.isbn = isbn;
         this.status = status;
+        
         
     }
 
